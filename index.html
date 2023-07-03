@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Separable PINN finds accurate solution of a given PDE 60x faster than conventional PINNs">
+  <meta name="keywords" content="SPINN, Separable PINN, PINN">
+  <meta name="viewport" content="width=is-full-width, initial-scale=1">
+  <title>Separable Physics-Informed Neural Networks</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title">Separable Physics-Informed Neural Networks</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://github.com/jwcho5576">Junwoo Cho*</a>,</span>
+            <span class="author-block">
+              <a href="https://github.com/stnamjef">Seungtae Nam*</a>,</span>
+            <span class="author-block">
+              <a href="https://github.com/extremebird">Hyunmo Yang</a>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.youngjoonhong.com/">Youngjoon Hong</a>,
+            </span>
+            <span class="author-block">
+              <a href="https://seokbaeyun.wordpress.com/">Seok-Bae Yun</a>,
+            </span>
+            <span class="author-block">
+              <a href="https://silverbottlep.github.io/">Eunbyung Park</a>
+            </span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><a href="https://www.skku.edu/eng/">Sungkyunkwan University</a></span>
+          </div>
+          <div>
+            * Equal contribution.
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2306.15969.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2306.15969"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/stnamjef/SPINN"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/Navier_Stokes.mp4"
+                type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        SPINN solves multi-dimensional PDEs 60&times; faster than conventional PINN.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We demonstrate that the computations in automatic differentiation (AD) can be significantly reduced by leveraging forward-mode AD when training PINN.
+            However, a naive application of forward-mode AD to conventional PINNs results in higher computation, losing its practical benefit.
+            Therefore, we propose a network architecture, called separable PINN (SPINN), which can facilitate forward-mode AD for more efficient computation.
+            SPINN operates on a per-axis basis instead of point-wise processing in conventional PINNs, decreasing the number of network forward passes.
+            Besides, while the computation and memory costs of standard PINNs grow exponentially along with the grid resolution, that of our model is remarkably less susceptible.
+          </p>
+          <p>
+            Given the same number of training points, we reduced the computational cost by 1,394&times; in FLOPs and achieved 62&times; speed-up in wall-clock training time on commodity GPUs while achieving higher accuracy.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+  </br></br></br>
+    <!-- Method. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Method</h2>
+        <div class="content has-text-justified">
+          <p>
+            SPINN consists of multiple MLPs, each of which takes an individual 1-dimensional coordinate as an input.
+            The output is constructed by a simple product and summation.
+          </p>
+        </div>
+        <div class="architecture-image">
+          <img src="./static/images/project_page1.png" width="100%">
+        </div>
+      </div>
+    </div>
+    <!--/ Method. -->
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered">
+
+      <!-- Low-rank decomposition. -->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Low-Rank Representation</h2>
+          <div class="content has-text-justified">
+            <p>
+              Due to its architecture and structural coordinate sampling, SPINN learns a low-rank decomposed representation of a solution.
+            </p>
+          </div>
+          <div class="architecture-image">
+            <img src="./static/images/project_page2.png">
+          </div>
+        </div>
+      </div>
+      <!--/ Low-rank decomposition. -->
+
+      <!-- Forward-mode AD. -->
+      <div class="column">
+        <h2 class="title is-3">Forward-Mode AD</h2>
+        <div class="columns is-centered">
+          <div class="column content">
+            <div class="content has-text-justified">
+              <p>
+                Our separated function architecture leverages forward-mode automatic differentiation (AD) to efficiently calculate the derivative.
+              </p>
+            </div>
+            <div class="architecture-image">
+              <img src="./static/images/forward AD.png">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!--/ Forward-mode AD. -->
+  </br></br></br>
+    <!-- Visualized Results. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Visualized Results</h2>
+        <!-- Non-linear Diffusion Equation. -->
+        <h3 class="title is-4">Non-linear Diffusion Equation</h3>
+        <div class="content has-text-centered">
+          <p>
+            $$\large{
+              \frac{\partial u}{\partial t}
+              =\alpha\left\{
+                \frac{\partial}{\partial x}\left(u\frac{\partial u}{\partial x}\right)
+                +\frac{\partial}{\partial y}\left(u\frac{\partial u}{\partial y}\right)
+              \right\}
+            }$$
+          </p>
+          <video id="nonlin_diffusion" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/nonlin_diffusion.mp4"
+                      type="video/mp4">
+          </video>
+        </div>
+      </br></br></br>
+        <!-- Helmholtz Equation. -->
+        <h3 class="title is-4">Helmholtz Equation</h3>
+        <div class="content has-text-centered">
+          <p>
+            $$\large{\frac{\partial^2 u}{\partial x^2}+\frac{\partial^2 u}{\partial y^2}+\frac{\partial^2 u}{\partial z^2}+k^2u=q}$$
+          </p>
+          <video id="teaser" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/helmholtz.mp4"
+                      type="video/mp4">
+          </video>
+        </div>
+        <!--/ Helmholtz Equation. -->
+      </br></br></br>
+        <!-- Klein-Gordon Equation. -->
+        <h3 class="title is-4">Klein-Gordon Equation</h3>
+        <div class="content has-text-centered">
+          <p>
+            $$\large{\frac{\partial^2 u}{\partial t^2}-(\frac{\partial^2 u}{\partial x^2}+\frac{\partial^2 u}{\partial y^2})+u^2=f}$$
+          </p>
+          <video id="teaser" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/klein-gordon.mp4"
+                      type="video/mp4">
+          </video>
+        </div>
+        <!--/ Klein-Gordon Equation. -->
+      </br></br></br>
+      </div>
+    </div>
+    <!--/ Visualized Results. -->
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>
+            This template is a modification of <a href="https://nerfies.github.io/">Nerfies' project page</a>.
+            Find the original source code <a href="https://github.com/nerfies/nerfies.github.io">here</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
